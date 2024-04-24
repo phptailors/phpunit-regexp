@@ -3,13 +3,15 @@
 /*
  * This file is part of phptailors/phpunit-extensions.
  *
- * Copyright (c) Paweł Tomulik <ptomulik@meil.pw.edu.pl>
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
  *
  * View the LICENSE file for full copyright and license information.
  */
 
 namespace Tailors\PHPUnit\Constraint;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Constraint\LogicalNot;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
@@ -18,37 +20,36 @@ use Tailors\PHPUnit\InvalidArgumentException;
 /**
  * @small
  *
- * @covers \Tailors\PHPUnit\Constraint\HasPregCaptures
- * @covers \Tailors\PHPUnit\Constraint\ProvHasPregCapturesTrait
- *
  * @internal This class is not covered by the backward compatibility promise
  *
  * @psalm-internal Tailors\PHPUnit
+ *
+ * @coversNothing
  */
+#[CoversClass(HasPregCaptures::class)]
+#[CoversClass(ProvHasPregCapturesTrait::class)]
 final class HasPregCapturesTest extends TestCase
 {
     use ProvHasPregCapturesTrait;
 
     /**
-     * @dataProvider provHasPregCaptures
-     *
      * @param mixed $actual
      */
-    public function testHasPregCapturesSucceeds(array $expect, $actual): void
+    #[DataProvider('provHasPregCaptures')]
+    public function testHasPregCapturesSucceeds(array $expect, $actual, string $message): void
     {
         $constraint = HasPregCaptures::create($expect);
         self::assertThat($actual, $constraint);
     }
 
     /**
-     * @dataProvider provNotHasPregCaptures
-     * @dataProvider provNotHasPregCapturesNonArray
-     *
      * @param mixed $actual
      */
-    public function testHasPregCapturesFails(array $expected, $actual, string $message): void
+    #[DataProvider('provNotHasPregCaptures')]
+    #[DataProvider('provNotHasPregCapturesNonArray')]
+    public function testHasPregCapturesFails(array $expect, $actual, string $message): void
     {
-        $constraint = HasPregCaptures::create($expected);
+        $constraint = HasPregCaptures::create($expect);
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessage($message);
@@ -57,22 +58,20 @@ final class HasPregCapturesTest extends TestCase
     }
 
     /**
-     * @dataProvider provNotHasPregCaptures
-     * @dataProvider provNotHasPregCapturesNonArray
-     *
      * @param mixed $actual
      */
-    public function testNotHasPregCapturesSucceeds(array $expect, $actual): void
+    #[DataProvider('provNotHasPregCaptures')]
+    #[DataProvider('provNotHasPregCapturesNonArray')]
+    public function testNotHasPregCapturesSucceeds(array $expect, $actual, string $message): void
     {
         $constraint = new LogicalNot(HasPregCaptures::create($expect));
         self::assertThat($actual, $constraint);
     }
 
     /**
-     * @dataProvider provHasPregCaptures
-     *
      * @param mixed $actual
      */
+    #[DataProvider('provHasPregCaptures')]
     public function testNotHasPregCapturesFails(array $expect, $actual, string $message): void
     {
         $constraint = new LogicalNot(HasPregCaptures::create($expect));
@@ -91,14 +90,14 @@ final class HasPregCapturesTest extends TestCase
 
         return [
             'HasPregCapturesTest.php:'.__LINE__ => [
-                'args'    => [[
+                'args' => [[
                     'foo' => new \stdClass(),
                 ]],
                 'message' => sprintf($template, 'expectation', 'key \'foo\''),
             ],
 
             'HasPregCapturesTest.php:'.__LINE__ => [
-                'args'    => [[
+                'args' => [[
                     0 => 123.456,
                     1 => false,
                     2 => ['', 1, ''],
@@ -111,9 +110,7 @@ final class HasPregCapturesTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provCreateThrowsInvalidArgumentException
-     */
+    #[DataProvider('provCreateThrowsInvalidArgumentException')]
     public function testCreateThrowsInvalidArgumentException(array $args, string $message): void
     {
         $this->expectException(InvalidArgumentException::class);
