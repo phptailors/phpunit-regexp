@@ -11,8 +11,8 @@
 namespace Tailors\PHPUnit\StaticAnalysis\HappyPath\AssertNotHasPregCaptures;
 
 use PHPUnit\Framework\ExpectationFailedException;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use Tailors\PHPUnit\HasPregCapturesTrait;
+use Tailors\PHPUnit\InvalidArgumentException;
 
 class Assert extends \PHPUnit\Framework\Assert
 {
@@ -22,7 +22,6 @@ class Assert extends \PHPUnit\Framework\Assert
 /**
  * @throws ExpectationFailedException
  * @throws InvalidArgumentException
- * @throws \Tailors\PHPUnit\InvalidArgumentException
  */
 function consume(array $expected, array $actual): array
 {
