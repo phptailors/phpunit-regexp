@@ -3,7 +3,7 @@
 /*
  * This file is part of phptailors/phpunit-extensions.
  *
- * Copyright (c) Paweł Tomulik <ptomulik@meil.pw.edu.pl>
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
  *
  * View the LICENSE file for full copyright and license information.
  */
@@ -11,7 +11,9 @@
 namespace Tailors\PHPUnit\Constraint;
 
 use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
+use Tailors\PHPUnit\Common\Exporter;
 use Tailors\PHPUnit\InvalidArgumentException;
 use Tailors\PHPUnit\Preg\CapturesFilter;
 use Tailors\PHPUnit\Preg\CapturesFilterInterface;
@@ -94,7 +96,7 @@ final class HasPregCaptures extends Constraint
      * @param string $description
      * @param bool   $returnResult
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
     public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
@@ -113,8 +115,8 @@ final class HasPregCaptures extends Constraint
                 $f = new ComparisonFailure(
                     $this->expected,
                     $other,
-                    $this->exporter()->export($expected),
-                    $this->exporter()->export($actual)
+                    Exporter::export($expected),
+                    Exporter::export($actual)
                 );
             }
 
