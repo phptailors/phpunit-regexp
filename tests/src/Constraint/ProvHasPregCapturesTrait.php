@@ -3,7 +3,7 @@
 /*
  * This file is part of phptailors/phpunit-extensions.
  *
- * Copyright (c) Paweł Tomulik <ptomulik@meil.pw.edu.pl>
+ * Copyright (c) Paweł Tomulik <pawel@tomulik.pl>
  *
  * View the LICENSE file for full copyright and license information.
  */
@@ -241,7 +241,7 @@ trait ProvHasPregCapturesTrait
     /**
      * Suitable for both assertHasPregCaptures() and hasPregCaptures().
      */
-    public function provNotHasPregCaptures(): array
+    public static function provNotHasPregCaptures(): array
     {
         $defaultMessage = 'array has expected PCRE capture groups';
 
@@ -351,7 +351,7 @@ trait ProvHasPregCapturesTrait
     /**
      * Suitable only for hasPregCaptures().
      */
-    public function provNotHasPregCapturesNonArray(): array
+    public static function provNotHasPregCapturesNonArray(): array
     {
         return [
             'ProvHasPregCapturesTrait.php:'.__LINE__ => [
