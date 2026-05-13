@@ -10,33 +10,36 @@
 
 namespace Tailors\PHPUnit;
 
-use PHPUnit\Framework\Attributes\CoversTrait;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use Tailors\PHPUnit\Constraint\ProvHasPregCapturesTrait;
 
 /**
+ * @small
+ *
+ * @covers \Tailors\PHPUnit\Constraint\ProvHasPregCapturesTrait
+ * @covers \Tailors\PHPUnit\HasPregCapturesTrait
+ *
  * @internal This class is not covered by the backward compatibility promise
  *
  * @psalm-internal Tailors\PHPUnit
  */
-#[CoversTrait(ProvHasPregCapturesTrait::class)]
-#[CoversTrait(HasPregCapturesTrait::class)]
-#[Small]
 final class HasPregCapturesTraitTest extends TestCase
 {
     use HasPregCapturesTrait;
     use ProvHasPregCapturesTrait;
 
-    #[DataProvider('provHasPregCaptures')]
+    /**
+     * @dataProvider provHasPregCaptures
+     */
     public function testAssertHasPregCapturesSucceeds(array $expect, mixed $actual, string $message): void
     {
         self::assertHasPregCaptures($expect, $actual);
     }
 
-    #[DataProvider('provNotHasPregCaptures')]
+    /**
+     * @dataProvider provNotHasPregCaptures
+     */
     public function testAssertHasPregCapturesFails(array $expect, mixed $actual, string $message): void
     {
         $this->expectException(ExpectationFailedException::class);
@@ -45,13 +48,17 @@ final class HasPregCapturesTraitTest extends TestCase
         self::assertHasPregCaptures($expect, $actual);
     }
 
-    #[DataProvider('provNotHasPregCaptures')]
+    /**
+     * @dataProvider provNotHasPregCaptures
+     */
     public function testAssertNotHasPregCaptureSucceeds(array $expect, mixed $actual, string $message): void
     {
         self::assertNotHasPregCaptures($expect, $actual);
     }
 
-    #[DataProvider('provHasPregCaptures')]
+    /**
+     * @dataProvider provHasPregCaptures
+     */
     public function testAssertNotHasPregCaptureFails(array $expect, mixed $actual, string $message): void
     {
         $this->expectException(ExpectationFailedException::class);
@@ -59,14 +66,18 @@ final class HasPregCapturesTraitTest extends TestCase
         self::assertNotHasPregCaptures($expect, $actual);
     }
 
-    #[DataProvider('provHasPregCaptures')]
+    /**
+     * @dataProvider provHasPregCaptures
+     */
     public function testHasPregCapturesSucceeds(array $expect, mixed $actual, string $message): void
     {
         self::assertThat($actual, self::hasPregCaptures($expect));
     }
 
-    #[DataProvider('provNotHasPregCaptures')]
-    #[DataProvider('provNotHasPregCapturesNonArray')]
+    /**
+     * @dataProvider provNotHasPregCaptures
+     * @dataProvider provNotHasPregCapturesNonArray
+     */
     public function testHasPregCapturesFails(array $expect, mixed $actual, string $message): void
     {
         $this->expectException(ExpectationFailedException::class);

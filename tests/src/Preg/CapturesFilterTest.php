@@ -10,18 +10,17 @@
 
 namespace Tailors\PHPUnit\Preg;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @small
+ *
+ * @covers \Tailors\PHPUnit\Preg\CapturesFilter
+ *
  * @internal This class is not covered by the backward compatibility promise
  *
  * @psalm-internal Tailors\PHPUnit
  */
-#[CoversClass(CapturesFilter::class)]
-#[Small]
 final class CapturesFilterTest extends TestCase
 {
     public static function provConstruct(): array
@@ -38,7 +37,9 @@ final class CapturesFilterTest extends TestCase
         ];
     }
 
-    #[DataProvider('provConstruct')]
+    /**
+     * @dataProvider provConstruct
+     */
     public function testConstruct(array $args, array $expect): void
     {
         $filter = new CapturesFilter(...$args);
@@ -180,7 +181,9 @@ final class CapturesFilterTest extends TestCase
         ];
     }
 
-    #[DataProvider('provIsCapture')]
+    /**
+     * @dataProvider provIsCapture
+     */
     public function testIsCapture(array $args, mixed $value, bool $expect): void
     {
         $filter = new CapturesFilter(...$args);
@@ -244,7 +247,9 @@ final class CapturesFilterTest extends TestCase
         ];
     }
 
-    #[DataProvider('provFilter')]
+    /**
+     * @dataProvider provFilter
+     */
     public function testFilter(array $args, array $array, array $expect): void
     {
         $filter = new CapturesFilter(...$args);

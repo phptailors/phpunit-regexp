@@ -43,13 +43,7 @@ final class HasPregCaptures extends Constraint
      *
      * @psalm-param array<array-key, CaptureExpectation> $expected
      */
-    private function __construct(
-        /**
-         * @psalm-var array<array-key, CaptureExpectation>
-         */
-        private readonly array $expected,
-        private readonly CapturesFilterInterface $filter
-    ) {}
+    private function __construct(private readonly array $expected, private readonly CapturesFilterInterface $filter) {}
 
     /**
      * Initializes the constraint.
@@ -69,7 +63,6 @@ final class HasPregCaptures extends Constraint
     /**
      * Returns a string representation of the constraint.
      */
-    #[\Override]
     public function toString(): string
     {
         return 'has expected PCRE capture groups';
@@ -87,7 +80,6 @@ final class HasPregCaptures extends Constraint
      *
      * @throws ExpectationFailedException
      */
-    #[\Override]
     public function evaluate(mixed $other, string $description = '', bool $returnResult = false): ?bool
     {
         $success = $this->matches($other);
@@ -121,7 +113,6 @@ final class HasPregCaptures extends Constraint
      *
      * @param mixed $other value or object to evaluate
      */
-    #[\Override]
     protected function matches($other): bool
     {
         if (!is_array($other)) {
@@ -140,7 +131,6 @@ final class HasPregCaptures extends Constraint
      *
      * @param mixed $other evaluated value or object
      */
-    #[\Override]
     protected function failureDescription($other): string
     {
         if (is_object($other)) {
